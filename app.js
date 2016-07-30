@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var socket_io = require('socket.io');
 
 var routes = require('./routes/index');
+var orders = require('./routes/order');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes(app.io));
+app.use('/orders', routes(app.io));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,11 +58,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var sub = require('./settings');
-sub.on('message', function (ch, msg) {
-    console.log(ch, msg);
-    app.io.to(JSON.parse(msg)['room']).emit(JSON.parse(msg)['data'])
-
-});
 
 module.exports = app;
