@@ -28,7 +28,7 @@ module.exports = function(io) {
     });
     router.post('/new/', function(req, res, next) {
         console.log(req.body);
-        io.emit('order:new', {"order_id": req.body});
+        io.emit('order:new', req.body);
         res.sendStatus(200)
 
     });
