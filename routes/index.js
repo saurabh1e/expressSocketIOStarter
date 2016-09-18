@@ -3,6 +3,7 @@ module.exports = function(io) {
     var router = express.Router();
 
     io.on('connection', function (socket) {
+        console.log('here')
         io.emit('connected');
         socket.on('join', function (msg) {
             socket.join(msg['room']);
@@ -32,6 +33,13 @@ module.exports = function(io) {
         res.sendStatus(200)
 
     });
+    router.post('/update/', function(req, res, next) {
+        console.log(req.body);
+        io.emit('order:update', req.body);
+        res.sendStatus(200)
+
+    });
+
 
     return router;
 };
